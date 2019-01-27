@@ -1,6 +1,6 @@
 # vue-ssr
 
-> A Vue.js project
+> A Vue.js test project with SSR
 
 ## Build Setup
 
@@ -8,11 +8,15 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
+# make build for client and server
 npm run build
-```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# make build and runserver at localhost:8080
+npm run start
+
+# also you can make build separately for the client
+npm run build-client
+# or server
+npm run build-server
+
+```
