@@ -8,11 +8,11 @@
 # install dependencies
 npm install
 
-# make build for client and server
-npm run build
-
 # make build and run server at localhost:8080
 npm run start
+
+# make build for client and server
+npm run build
 
 # also you can make build separately for the client
 npm run build-client
