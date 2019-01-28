@@ -53,7 +53,7 @@ export const createStore = () =>
               resolve();
             });
           } else {
-            reject(new Error("Can't upload photos: timeout is not over!"));
+            reject(new Error("Timeout is not over!"));
           }
         });
       }
