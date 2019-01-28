@@ -5,50 +5,57 @@ import { timeoutOver } from "../utils";
 
 Vue.use(Vuex);
 
-const UPDATE_PHOTOS = "UPDATE_PHOTOS";
-const UPDATE_PHOTOS_LOADED_TIME = "UPDATE_PHOTOS_LOADED_TIME";
+/* Mutation constants */
+
+const UPDATE_PHOTOS_LIST = "UPDATE_PHOTOS_LIST";
+const UPDATE_PHOTOS_UPLOAD_TIME = "UPDATE_PHOTOS_UPLOAD_TIME";
 
 export const createStore = () =>
   new Vuex.Store({
     state: {
       photos: {
         list: [],
-        listLoadedTime: null,
-        listLoadedTimeout: 5000
+        listUploadTime: null,
+        listUploadTimeout: 5000
       }
     },
 
     getters: {
-      photosTitles: state => state.photos.list.map(item => item.title),
+      photosList: state => state.photos.list,
+      photosTitles: state => state.photos.list.map(item => item.title)
     },
 
     mutations: {
-      [UPDATE_PHOTOS]: (state, photos) => Vue.set(state.photos, "list", photos),
-      [UPDATE_PHOTOS_LOADED_TIME]: state =>
-        Vue.set(state.photos, "loadedTime", new Date().getTime()) // Set current time
+      [UPDATE_PHOTOS_LIST]: (state, list) =>
+        Vue.set(state.photos, "list", list),
+
+      [UPDATE_PHOTOS_UPLOAD_TIME]: state =>
+        // Set current time in milliseconds
+        Vue.set(state.photos, "listUploadTime", new Date().getTime())
     },
 
     actions: {
-      loadPhotos({ commit, state }) {
+      uploadPhotos({ commit, state }) {
+        /* 
+          Upload photos and set upload time if timeout expired
+        */
         return new Promise((resolve, reject) => {
-          const loadedTime = state.photos.listLoadedTime;
-          const loadedTimeout = state.photos.listLoadedTimeout;
-  
-          if (timeoutOver(loadedTime, loadedTimeout)) {
-            console.log("LOAD_PHOTOS");
-            
+          const uploadTime = state.photos.listUploadTime;
+          const uploadTimeout = state.photos.listUploadTimeout;
+
+          if (timeoutOver(uploadTime, uploadTimeout)) {
             getPhotos().then(data => {
               // Update photos list
-              commit(UPDATE_PHOTOS, data);
-              // Update loaded date
-              commit(UPDATE_PHOTOS_LOADED_TIME);
+              commit(UPDATE_PHOTOS_LIST, data);
+              // Update upload time
+              commit(UPDATE_PHOTOS_UPLOAD_TIME);
 
               resolve();
             });
           } else {
-            resolve();
+            reject(new Error("Can't upload photos: timeout is not over!"));
           }
-        })
+        });
       }
     }
   });
