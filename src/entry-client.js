@@ -32,11 +32,13 @@ Vue.mixin({
   }
 });
 
-const { app, store } = createApp();
+const { app, router, store } = createApp();
 
 if (window.__INITIAL_STATE__) {
   // Set state that determined during SSR and inlined in the page markup
   store.replaceState(window.__INITIAL_STATE__);
 }
 
-app.$mount("#app");
+router.onReady(() => {
+  app.$mount("#app");
+});

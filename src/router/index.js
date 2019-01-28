@@ -1,7 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import PageOne from "../components/PageOne";
-import PageTwo from "../components/PageTwo";
 
 Vue.use(Router);
 
@@ -12,12 +10,12 @@ export const createRouter = () =>
       {
         path: "/",
         name: "pageOne",
-        component: PageOne
+        component: () => import("../components/PageOne")
       },
       {
         path: "/page-two",
         name: "pageTwo",
-        component: PageTwo
+        component: () => import("../components/PageTwo")
       }
     ]
   });
