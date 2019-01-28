@@ -1,13 +1,21 @@
 <template>
   <div>
     <!-- Display if photos not been loaded -->
-    <router-link v-if="photosListEmpty" class="link" :to="{name: 'pageTwo'}">Page two (no preload)</router-link>
+    <router-link 
+      v-if="photosListEmpty"
+      class="link"
+      :to="{name: 'pageTwo'}"
+    >
+      Page two (no preload)
+    </router-link>
 
     <router-link
       class="link"
       :to="{name: 'pageTwo'}"
       @mouseenter.native="linkMouseEnter"
-    >Page two (preload on mouseenter)</router-link>
+    >
+      Page two (preload on mouseenter)
+    </router-link>
   </div>
 </template>
 
@@ -19,7 +27,7 @@ export default {
       this.$store
         .dispatch("uploadPhotos")
         .then(() => console.log("PHOTOS_UPLOADED", this.$store.state))
-        .catch(error => console.warn(error.message));
+        .catch(error => console.warn(`Can't upload photos: ${error.message}`));
     }
   },
   computed: {
